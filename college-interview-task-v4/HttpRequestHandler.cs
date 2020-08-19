@@ -19,8 +19,8 @@ namespace college_interview_task_v4
     public abstract class HttpRequestHandler<TRequest, TResponse>
     {
         abstract protected HttpClient httpClient { get; set; }
-        protected IHttpResponseParser<TResponse> _responseParser { get; private set; }
-        protected IRequestParser<TRequest> _requestParser { get; private set; }
+        private IHttpResponseParser<TResponse> _responseParser { get;}
+        private IRequestParser<TRequest> _requestParser { get;}
 
 
         protected HttpRequestHandler(IRequestParser<TRequest> requestParser, IHttpResponseParser<TResponse> responseParser)
