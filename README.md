@@ -1,57 +1,24 @@
-﻿# Zadanie rekrutacyjne
+**zadanie 1.
 
-## Wstęp
+Kod służy do pobierania danych z zewnętrznego źródła i parsowania go do podanego typu.
 
-Zawartość służy jako test rekrutacyjny dla studentów do projektu informatycznego na stanowisko "programista .net".
+Linia 2, 3, 4: Powtórzenie kodu.
+Linia 14: Nieużywana zmienna ‘Variable1’, można ją usunąć.
+Lina 24: Konstruktor nie przypisuje wartości do ‘_httpClientProxy’.
+Linia 29: Metoda ‘Handle’ przyjmuje zbyt wiele argumentów i zajmuje się zbyt wieloma rzeczami.
+	Metoda przyjmuje argument ‘request’ i z niego nie korzysta.
+	Typ argumentu ‘payload’ można zmienić z ‘object’ na ‘HttpContent’.
+	Należy zmienić nazwę argumentu ‘pleaseProvideFullUrlHere’ na np. ‘FullUrl’.
+Linia 33: Metoda ‘Handle’ przyjmuje jako argument FullUrl a następnie tworzy ‘uriString’ przez sklejenie bazowego adresu i całkowitego adresu. Powstanie np. ‘https://example/https://example/something’.
+Linia 37, 47: Zamienić if elsy na if ze znakiem !=.
+Linia 45: Niepotrzebna zmienna ‘headers’, zamiast niej można używać zmiennej ‘aditionalHeaders’.
+Linia 58: ‘_httpClientProxy’ nie jest nigdzie przypisywany i może być null.
+Linia 62: Nieprawidłowy Exception type. Zamieniłbym na ‘HttpRequestException’.
+Linia 77: Nazwa ‘ParseAsync’ sugeruje że metoda jest asynchroniczna, a nie jest.
 
-Wymagane umiejętności by ukończyć zadanie:
 
-1. znajomość języka programowania C#
-2. pozytywne nastawienie
+**Użycie aplikacjji.
 
-Dystrybucja:
-
-* wszystkie zadania należy umieścić w prywatnym repo kandydata i przesłać link w odpowiedzi na maila rekrutacyjnego
-
-Informacje dodatkowe:
-
-* nie trzeba przynosić komputera na rozmowę rekrutacyjną (jeśli odbędzie się w biurze ze względu na wyjątkową sytuację w kraju)
-* podczas rozmowy rekrutacyjnej pojawią się dodatkowe pytania w sprawie wykonanego zadania
-
-## Zadanie 1 - co to jest (analiza kodu źródłowego)
-
-W tym zadaniu należy słownie, opisać kod źródłowy którego dotyczy rekrutacja (patrz zadanie 2 i 3)
-
-1. co ten kod robi
-2. jakie widać problemy
-3. co jest fajnego?
-4. jakie widzimy niebezpieczeństwa używając tej metody?
-
-## Zadanie 2 - refactoring & unit test
-
-W tym zadaniu należy:
-
-1. zrobić refactoring klasy **HttpRequestHandler.cs**, aby była:
-   * bardziej przejrzysta do czytania
-   * lepsza w używaniu
-2. zaimplementować wszystkie interfejsy, przygotować konkretną implementację klasy bazowej, itd.
-3. napisać unit testy do przykładowej klasy aby pokazać "że działa"
-
-**Uwaga:**
-
-* niniejsza klasa została zmodyfikowana celowo aby uzyskać efekt "bad design" / "bad quality" na potrzeby zadania rekrutacyjnego
-* _"wszystkie chwyty dozwolone"_
-* można w dowolny sposób zmieniać zawartość klasy, jej konstruktory, sygnatury metod, itp.
-
-## Zadanie 3 - demo (sposób użycia)
-
-W tym zadaniu należy przygotować, w dowolny sposób, krótką prezentację wykorzystania klasy **HttpRequestHandler.cs** z poprzednich zadań. Może to być zrobione w formie aplikacji konsolowej (zalecane), webowej lub dowolnej innej formie.
-
-**Uwaga:**
-
-1. demo powinno być przygotowane i wrzucone do nowego repozytorium GitHub kandydata
-   * kandydat wysyła link do swojego GitHub w celu weryfikacji poprawności wykonania zadania
-
-## Podsumowanie
-
-To już koniec "zadania domowego" :) Czy na koniec, możemy uprzejmie prosić o jedno zdanie komentarza na temat powyższych trzech zadań?
+- Aplikacja służy do pobierania i wyświetlania danych dotyczących kursu walut z API narodowego banku polskiego.
+- Aby uzyskać inforamcje dotyczące kursu walut z konkretnego dnia roboczego podaj datę w formacie yyyy-MM-dd np. '2020-08-18'.
+- Aby opuścić aplikację wpisz 'escape'.
