@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
-using exchangeRateClassLibrary;
+using currencyClassLibrary;
 
 namespace exchangeRateConsoleApp
 {
@@ -10,8 +9,8 @@ namespace exchangeRateConsoleApp
     {
         static void Main(string[] args)
         {
-            ExchangeRateHttpRequestHandler handler = new ExchangeRateHttpRequestHandler(new HttpClient());
-            ExchangeRateResults result;
+            CurrencyHttpRequestHandler handler = new CurrencyHttpRequestHandler(new HttpClient());
+            CurrencyResults result;
             string input;
             DateTime inputDate; 
 
@@ -26,7 +25,7 @@ namespace exchangeRateConsoleApp
                 {
                     inputDate = DateTime.Parse(input);
                 }
-                catch (FormatException)
+                catch
                 {
                     Console.Clear();
                     Console.WriteLine("Nieprawidłowy format daty. Sprubój ponownie.");
@@ -38,7 +37,7 @@ namespace exchangeRateConsoleApp
                 {
 
                     Console.WriteLine("Pobieranie danych...");
-                    result = handler.Handle(DateTime.Parse(input), new CancellationToken()).GetAwaiter().GetResult();
+                    result = handler.Handle(inputDate).GetAwaiter().GetResult();
                     Console.Clear();
                     WriteResult(result);
                 }
@@ -51,6 +50,11 @@ namespace exchangeRateConsoleApp
                 {
                     Console.Clear();
                     Console.WriteLine(string.Format("Nie udało się pobrać danych z {0:yyyy-MM-dd}.", inputDate));
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Przerwano pobieranie danych.");
                 }
                 catch (Exception)
                 {
@@ -69,7 +73,7 @@ namespace exchangeRateConsoleApp
             Console.WriteLine("Aby opuścić applikację wpisz 'escape'.");
         }
 
-        static void WriteResult(ExchangeRateResults result)
+        static void WriteResult(CurrencyResults result)
         {
             Console.WriteLine(string.Format("Kursy walut z {0:yyyy-MM-dd}.", result.EffectiveDate));
             string formatter = " | {0,-20} | {1,20} | {2,20} | ";

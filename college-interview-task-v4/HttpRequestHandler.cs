@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace college_interview_task_v4
 {
@@ -21,42 +18,66 @@ namespace college_interview_task_v4
 
     public abstract class HttpRequestHandler<TRequest, TResponse>
     {
-        protected HttpClient _httpClientProxy;
-        private IHttpResponseParser<TResponse> _responseParser { get; set; }
-        private IRequestParser<TRequest> _requestParser { get; set; }
+        abstract protected HttpClient httpClient { get; set; }
+        protected IHttpResponseParser<TResponse> _responseParser { get; private set; }
+        protected IRequestParser<TRequest> _requestParser { get; private set; }
 
 
-        protected HttpRequestHandler(HttpClient httpClientProxy, IRequestParser<TRequest> requestParser, IHttpResponseParser<TResponse> responseParser)
+        protected HttpRequestHandler(IRequestParser<TRequest> requestParser, IHttpResponseParser<TResponse> responseParser)
         {
-            _httpClientProxy = httpClientProxy;
             _requestParser = requestParser;
             _responseParser = responseParser;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken? cancellationToken=null)
         {
+            HttpRequestMessage requestMessage;
+            HttpResponseMessage response;
+
             try
             {
-                HttpRequestMessage requestMessage = _requestParser.Parse(request);
-                HttpResponseMessage response = await _httpClientProxy.SendAsync(requestMessage, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                return await _responseParser.ParseAsync(response);
+                requestMessage = _requestParser.Parse(request);
             }
-            catch (FormatException e)
+            catch
             {
-                throw new ApplicationException("Application does not work properly.", e);
+                throw new ApplicationException("Wrongly defined _requestParser or request.");
+            }
+
+            try
+            {
+                if(cancellationToken is null)
+                {
+                    response = await httpClient.SendAsync(requestMessage);
+                }
+                else
+                {
+                    response = await httpClient.SendAsync(requestMessage, (CancellationToken)cancellationToken);
+                }
+                
+                response.EnsureSuccessStatusCode();
+                
             }
             catch (HttpRequestException e)
             {
-                throw e;
+                throw new HttpRequestException("Unable to get data", e);
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new TaskCanceledException("Task canceled", e);
             }
             catch (Exception e)
             {
                 throw new Exception("Unknown exception.", e);
             }
+
+            try
+            {
+                return await _responseParser.ParseAsync(response);
+            }
+            catch
+            {
+                throw new ApplicationException("Wrongly defined _responseParser or response.");
+            }
         }
     }
-
-
-
 }

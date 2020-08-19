@@ -1,17 +1,14 @@
 ﻿using college_interview_task_v4;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace exchangeRateClassLibrary
+namespace currencyClassLibrary
 {
-    public class ResponseParser : IHttpResponseParser<ExchangeRateResults>
+    public class ResponseParser : IHttpResponseParser<CurrencyResults>
     {
-        public async Task<ExchangeRateResults> ParseAsync(HttpResponseMessage response)
+        public async Task<CurrencyResults> ParseAsync(HttpResponseMessage response)
         {
-            return (await response.Content.ReadAsAsync<ExchangeRateResults[]>())[0];
+            return (await response.Content.ReadAsAsync<CurrencyResults[]>())[0];
         }
     }
 }

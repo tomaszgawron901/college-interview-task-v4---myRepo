@@ -1,11 +1,8 @@
 ﻿using college_interview_task_v4;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 
-namespace exchangeRateClassLibrary
+namespace currencyClassLibrary
 {
     public class RequestParser : IRequestParser<DateTime>
     {

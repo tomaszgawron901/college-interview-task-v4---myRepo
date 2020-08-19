@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace exchangeRateClassLibrary
+namespace currencyClassLibrary
 {
-    public class ExchangeRateResults
+    public class CurrencyResults
     {
         public DateTime TradingDate { get; set; }
         public DateTime EffectiveDate { get; set; }
